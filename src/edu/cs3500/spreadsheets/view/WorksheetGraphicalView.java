@@ -7,8 +7,6 @@ import javax.swing.*;
 
 public class WorksheetGraphicalView extends JFrame implements WorksheetView {
 
-  //poopy
-
   private static int LENGTH = 30;
   private static int HEIGHT = 20;
 
