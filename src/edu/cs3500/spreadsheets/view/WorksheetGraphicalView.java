@@ -23,17 +23,15 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
    * It makes a default, empty table.
    */
   public WorksheetGraphicalView(WorksheetModel<Cell> model) {
-    JTable table = new JTable(new BasicTableModel(this.model));
-    // TODO: what do we do with the new JTable?
-
     JScrollPane scroll = new JScrollPane(table);
     // TODO: are we sure we want to use a JScrollPane?
 
     this.add(scroll);
     this.setSize(LENGTH, HEIGHT);
     this.setVisible(true);
-
     this.model = model;
+    this.table = new JTable(new BasicTableModel(this.model));
+    // TODO: what do we do with the new JTable?
   }
 
   @Override
