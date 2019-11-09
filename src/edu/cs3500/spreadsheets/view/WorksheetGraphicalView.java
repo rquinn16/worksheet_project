@@ -16,7 +16,7 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   private static int LENGTH = 1000;
   private static int HEIGHT = 700;
   private WorksheetModel<Cell> model;
-  private JPanel panel;
+  private JPanel panel;d
 
   /**
    * Constructor for the WorksheetGraphicalView.
