@@ -6,11 +6,14 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.*;
+
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.Worksheet;
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.cell.Cell;
+import edu.cs3500.spreadsheets.view.WorksheetGraphicalView;
 
 /**
  * The main class for our program.
@@ -35,6 +38,8 @@ public class BeyondGood {
       Worksheet builder = new Worksheet();
       WorksheetReader.read(builder, f);
       WorksheetModel<Cell> model = builder.createWorksheet();
+      WorksheetGraphicalView view = new WorksheetGraphicalView(model);
+      view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       if (!args[2].equals("-eval")) {
         System.out.print("Must evaluate a cell with -eval");
       }
