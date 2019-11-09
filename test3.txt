@@ -1,0 +1,3 @@
+A1 1
+A2 2
+A3 =(BADFUNC A1:A2)
