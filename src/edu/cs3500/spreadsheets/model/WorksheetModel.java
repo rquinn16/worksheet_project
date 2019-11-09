@@ -38,4 +38,18 @@ public interface WorksheetModel<K> {
    */
   HashMap<Coord, Content> getAllCells();
   //TODO add getCellAt(int col, int row)
+
+  /**
+   * Gets the number of the highest column in this table.
+   * @return Integer representing the number of columns in the table.
+   */
+  int getMaxCol();
+
+  /**
+   * Gets the number of the highest row in this table.
+   * @return Integer representing the number of rows in the table.
+   */
+  int getMaxRow();
+
+
 }
