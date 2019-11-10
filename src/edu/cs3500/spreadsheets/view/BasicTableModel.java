@@ -30,6 +30,6 @@ public class BasicTableModel extends AbstractTableModel {
 
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
-    return this.model.displayCell(rowIndex, columnIndex);
+    return this.model.displayCell(columnIndex + 1, rowIndex + 1);
   }
 }

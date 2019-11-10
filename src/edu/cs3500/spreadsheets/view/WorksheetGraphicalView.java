@@ -4,13 +4,14 @@ import edu.cs3500.spreadsheets.model.Worksheet;
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.cell.Cell;
-import java.awt.Graphics;
+
+import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+
+import javax.swing.*;
+import javax.swing.table.TableColumn;
 
 /**
  * Represents the graphical view of a Worksheet.
@@ -20,7 +21,8 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   private static int LENGTH = 1000;
   private static int HEIGHT = 700;
   private WorksheetModel<Cell> model;
-  private JTable table;
+  //private JTable table;
+  private JPanel panel;
 
   /**
    * Constructor for the WorksheetGraphicalView.
@@ -32,22 +34,42 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
 
   @Override
   public void render() throws IOException {
-    JScrollPane scroll = new JScrollPane(table);
-    this.add(scroll);
+    this.panel = new JPanel();
+    JTable dataTable = new JTable(new BasicTableModel(this.model));
+    dataTable.setSize(LENGTH, HEIGHT);
+    dataTable.setRowHeight(30);
+    dataTable.getColumnModel().setColumnMargin(1);
+    dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    dataTable.setSize(LENGTH, HEIGHT);
+    JTable rowNumbers = new DisplayRowNumbers(dataTable);
+    //this.panel.add(dataTable);
+    JScrollPane scroll = new JScrollPane(dataTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    scroll.setRowHeaderView(rowNumbers);
+    scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowNumbers.getTableHeader());
+    //this.panel.add(rowNumbers);
+    this.panel.add(scroll);
+    this.panel.setSize(LENGTH, HEIGHT);
     this.setSize(LENGTH, HEIGHT);
-    this.table = new JTable(new BasicTableModel(this.model));
+
+    this.add(panel);
+    dataTable.setShowGrid(true);
+    dataTable.setGridColor(Color.BLACK);
     this.setVisible(true);
   }
 
   @Override
   public void paintComponents(Graphics g) {
     super.paintComponents(g);
+    Graphics2D g2d = (Graphics2D) g;
+
+    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
   }
 
   public static void main(String[] args) {
     try {
       FileReader f = new FileReader(
-          new File("C:\\Users\\jfri9\\OneDrive\\Desktop\\WorksheetExample.txt"));
+              new File("/Users/ryanquinn/Desktop/worksheet 2/WorksheetExample.txt"));
       Worksheet builder = new Worksheet();
       WorksheetReader.read(builder, f);
       WorksheetModel<Cell> model = builder.createWorksheet();
