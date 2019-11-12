@@ -10,22 +10,42 @@ import javax.swing.table.AbstractTableModel;
 public class BasicTableModel extends AbstractTableModel {
 
   private WorksheetModel<Cell> model;
+  private int row;
+  private int col;
 
   /**
    * Constructor only takes in a WorksheetModel.
    */
   public BasicTableModel(WorksheetModel<Cell> model) {
     this.model = model;
+    this.row = this.model.getMaxRow();
+    this.col = this.model.getMaxCol();
   }
 
   @Override
   public int getRowCount() {
-    return this.model.getMaxRow();
+    return this.row;
   }
 
   @Override
   public int getColumnCount() {
-    return this.model.getMaxCol();
+    return this.col;
+  }
+
+  /**
+   * Sets the number of rows in the table model to the given integer.
+   * @param r the new row count.
+   */
+  public void setRow(int r) {
+    this.row = r;
+  }
+
+  /**
+   * Sets the number of columns in the table model to the given integer.
+   * @param c the new column count.
+   */
+  public void setCol(int c) {
+    this.col = c;
   }
 
   @Override
