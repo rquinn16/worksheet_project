@@ -30,4 +30,9 @@ public class BasicTableColumnModel extends DefaultTableColumnModel {
       this.addColumn(toAdd);
     }
   }
+
+  public int addToCol() {
+    this.col++;
+    return col;
+  }
 }

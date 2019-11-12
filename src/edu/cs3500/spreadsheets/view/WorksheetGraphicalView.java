@@ -38,7 +38,7 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   public void render() throws IOException {
     this.panel = new JPanel();
     BasicTableModel t = new BasicTableModel(this.model);
-    TableColumnModel c = new BasicTableColumnModel(t);
+    BasicTableColumnModel c = new BasicTableColumnModel(t);
     JTable dataTable = new JTable(t, c) {
       @Override
       public boolean isCellEditable(int row, int column) {
