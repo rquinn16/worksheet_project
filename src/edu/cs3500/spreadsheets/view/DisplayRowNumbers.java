@@ -19,7 +19,7 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
 
     this.setRowHeight(30);
     this.setFocusable(false);
-    this.setShowGrid(true);
+    this.setBackground(new Color(115, 115, 115));
     this.setGridColor(Color.BLACK);
     this.setAutoCreateColumnsFromModel(false);
     this.setSelectionModel(dataTable.getSelectionModel());
@@ -30,6 +30,11 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
 
     this.getColumnModel().getColumn(0).setPreferredWidth(50);
     this.setPreferredScrollableViewportSize(getPreferredSize());
+  }
+
+  @Override
+  public boolean isCellEditable(int row, int column) {
+    return false;
   }
 
   @Override
@@ -68,17 +73,17 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    if ("selectionModel".equals(evt.getPropertyName())) {
-      this.setSelectionModel(this.dataTable.getSelectionModel());
-    }
-
-    if ("rowHeight".equals(evt.getPropertyName())) {
-      this.repaint();
-    }
-
-    if ("model".equals(evt.getPropertyName())) {
-      this.dataTable.getModel().addTableModelListener(this);
-      this.revalidate();
+    switch (evt.getPropertyName()) {
+      case "selectionModel":
+        this.setSelectionModel(this.dataTable.getSelectionModel());
+        break;
+      case "rowHeight":
+        this.repaint();
+        break;
+      case "model":
+        this.dataTable.getModel().addTableModelListener(this);
+        this.revalidate();
+        break;
     }
   }
 }

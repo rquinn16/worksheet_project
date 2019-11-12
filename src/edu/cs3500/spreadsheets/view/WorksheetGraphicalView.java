@@ -35,19 +35,24 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   @Override
   public void render() throws IOException {
     this.panel = new JPanel();
-    JTable dataTable = new JTable(new BasicTableModel(this.model));
+    JTable dataTable = new JTable(new BasicTableModel(this.model)) {
+      @Override
+      public boolean isCellEditable(int row, int column) {
+        return true;
+      }
+    };
+    dataTable.getTableHeader().setReorderingAllowed(false);
+    dataTable.getTableHeader().setResizingAllowed(false);
     dataTable.setSize(LENGTH, HEIGHT);
     dataTable.setRowHeight(30);
     dataTable.getColumnModel().setColumnMargin(1);
     dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     dataTable.setSize(LENGTH, HEIGHT);
     JTable rowNumbers = new DisplayRowNumbers(dataTable);
-    //this.panel.add(dataTable);
     JScrollPane scroll = new JScrollPane(dataTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     scroll.setRowHeaderView(rowNumbers);
     scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowNumbers.getTableHeader());
-    //this.panel.add(rowNumbers);
     this.panel.add(scroll);
     this.panel.setSize(LENGTH, HEIGHT);
     this.setSize(LENGTH, HEIGHT);
