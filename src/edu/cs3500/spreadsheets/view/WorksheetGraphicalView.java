@@ -11,6 +11,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  * Represents the graphical view of a Worksheet.
@@ -35,7 +38,8 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   public void render() throws IOException {
     this.panel = new JPanel();
     BasicTableModel t = new BasicTableModel(this.model);
-    JTable dataTable = new JTable(t) {
+    TableColumnModel c = new BasicTableColumnModel(t);
+    JTable dataTable = new JTable(t, c) {
       @Override
       public boolean isCellEditable(int row, int column) {
         return true;
@@ -56,7 +60,7 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
     this.panel.add(scroll);
     this.panel.setSize(LENGTH, HEIGHT);
     this.setSize(LENGTH, HEIGHT);
-    scroll.getHorizontalScrollBar().addAdjustmentListener(new InfiniteScrollH(scroll, t));
+    scroll.getHorizontalScrollBar().addAdjustmentListener(new InfiniteScrollH(scroll, c));
     scroll.getVerticalScrollBar().addAdjustmentListener(new InfiniteScrollV(scroll, t));
     this.add(panel);
     dataTable.setShowGrid(true);
@@ -68,7 +72,6 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   public void paintComponents(Graphics g) {
     super.paintComponents(g);
     Graphics2D g2d = (Graphics2D) g;
-
     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
   }
 
