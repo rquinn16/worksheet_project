@@ -13,6 +13,9 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
   private JTable dataTable;
 
   DisplayRowNumbers(JTable dataTable) {
+    if (dataTable  == null) {
+      throw new IllegalArgumentException("tried to pass in null");
+    }
     this.dataTable = dataTable;
     this.dataTable.addPropertyChangeListener(this);
     this.dataTable.getModel().addTableModelListener(this);
@@ -26,7 +29,7 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
 
     TableColumn col = new TableColumn();
     col.setHeaderValue("");
-    addColumn(col);
+    this.addColumn(col);
 
     this.getColumnModel().getColumn(0).setPreferredWidth(50);
     this.setPreferredScrollableViewportSize(getPreferredSize());
@@ -51,7 +54,7 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
 
   @Override
   public Object getValueAt(int row, int column) {
-    return Integer.toString(row + 1);
+    return "" + (row + 1);
   }
 
   @Override
@@ -65,14 +68,20 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
   }
 
   @Override
-  public void stateChanged(ChangeEvent e) {
-    JViewport viewport = (JViewport) e.getSource();
+  public void stateChanged(ChangeEvent evt) {
+    if (evt  == null) {
+      throw new IllegalArgumentException("tried to pass in null");
+    }
+    JViewport viewport = (JViewport) evt.getSource();
     JScrollPane scrollPane = (JScrollPane) viewport.getParent();
     scrollPane.getVerticalScrollBar().setValue(viewport.getViewPosition().y);
   }
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
+    if (evt  == null) {
+      throw new IllegalArgumentException("tried to pass in null");
+    }
     switch (evt.getPropertyName()) {
       case "selectionModel":
         this.setSelectionModel(this.dataTable.getSelectionModel());

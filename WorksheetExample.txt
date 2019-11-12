@@ -1,5 +1,13 @@
 A1 3
 A2 true
-A3 "yassssssssssssssssssss"
-B2 "string"
-PPP555 =(SUM A1 A2)
+A3 "a"
+B1 =A1
+B2 "b"
+B3 =(CONCATENATE A3 " " B2 A1)
+B4 =B6
+B5 =B4
+B6 =B5
+B7 =A1:B2
+C1 =(SUM A1:B1)
+
+PP55 =(SUM A1 A2)

@@ -96,7 +96,7 @@ public class Reference implements Formula {
   @Override
   public String toEvaluatedString() {
     if (this.referenced.size() == 1) {
-      return this.referenced.get(0).toString();
+      return this.referenced.get(0).toEvaluatedString();
     } else if (this.referenced.size() > 1) {
       return "#REF!";
     } else {

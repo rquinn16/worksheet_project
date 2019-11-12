@@ -7,11 +7,14 @@ import javax.swing.JScrollPane;
 /**
  * Class that allows infinite scrolling feature in vertical direction.
  */
-public class InfiniteScrollV implements AdjustmentListener {
+class InfiniteScrollV implements AdjustmentListener {
   JScrollPane p;
   BasicTableModel t;
 
-  public InfiniteScrollV(JScrollPane p, BasicTableModel t) {
+  InfiniteScrollV(JScrollPane p, BasicTableModel t) {
+    if (p  == null || t == null) {
+      throw new IllegalArgumentException("tried to pass in null");
+    }
     this.p = p;
     this.t = t;
   }

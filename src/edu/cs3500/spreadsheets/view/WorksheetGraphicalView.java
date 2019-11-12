@@ -1,30 +1,25 @@
 package edu.cs3500.spreadsheets.view;
 
-import edu.cs3500.spreadsheets.model.Worksheet;
-import edu.cs3500.spreadsheets.model.WorksheetModel;
-import edu.cs3500.spreadsheets.model.WorksheetReader;
-import edu.cs3500.spreadsheets.model.cell.Cell;
-
 import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+
+import edu.cs3500.spreadsheets.model.Worksheet;
+import edu.cs3500.spreadsheets.model.WorksheetModel;
+import edu.cs3500.spreadsheets.model.WorksheetReader;
+import edu.cs3500.spreadsheets.model.cell.Cell;
 
 /**
- * Represents the graphical view of a Worksheet.
+ * Represents the graphical view of a Worksheet in the style of Excel's spreadsheet view.
+ * We allow here for infinite scrolling past the bottom right-most cell in both the horizontal
+ * and vertical directions.
  */
 public class WorksheetGraphicalView extends JFrame implements WorksheetView {
 
-  private static int LENGTH = 1000;
-  private static int HEIGHT = 700;
   private WorksheetModel<Cell> model;
-  //private JTable table;
-  private JPanel panel;
 
   /**
    * Constructor for the WorksheetGraphicalView.
@@ -35,10 +30,13 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   }
 
   @Override
-  public void render() throws IOException {
-    this.panel = new JPanel();
+  public void render() {
+    int LENGTH = 1600;
+    int HEIGHT = 900;
+    Dimension DIMENSIONS = new Dimension(LENGTH, HEIGHT);
+
     BasicTableModel t = new BasicTableModel(this.model);
-    TableColumnModel c = new BasicTableColumnModel(t);
+    BasicTableColumnModel c = new BasicTableColumnModel(t);
     JTable dataTable = new JTable(t, c) {
       @Override
       public boolean isCellEditable(int row, int column) {
@@ -47,25 +45,31 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
     };
     dataTable.getTableHeader().setReorderingAllowed(false);
     dataTable.getTableHeader().setResizingAllowed(false);
-    dataTable.setSize(LENGTH, HEIGHT);
     dataTable.setRowHeight(30);
     dataTable.getColumnModel().setColumnMargin(1);
     dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    dataTable.setSize(LENGTH, HEIGHT);
+    dataTable.setSize(DIMENSIONS);
+    dataTable.setPreferredScrollableViewportSize(DIMENSIONS);
+    dataTable.setShowGrid(true);
+    dataTable.setGridColor(Color.BLACK);
     JTable rowNumbers = new DisplayRowNumbers(dataTable);
     JScrollPane scroll = new JScrollPane(dataTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     scroll.setRowHeaderView(rowNumbers);
     scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowNumbers.getTableHeader());
-    this.panel.add(scroll);
-    this.panel.setSize(LENGTH, HEIGHT);
-    this.setSize(LENGTH, HEIGHT);
+    JPanel panel = new JPanel();
+    panel.add(scroll, BorderLayout.CENTER);
+    panel.setSize(DIMENSIONS);
     scroll.getHorizontalScrollBar().addAdjustmentListener(new InfiniteScrollH(scroll, c));
     scroll.getVerticalScrollBar().addAdjustmentListener(new InfiniteScrollV(scroll, t));
-    this.add(panel);
-    dataTable.setShowGrid(true);
-    dataTable.setGridColor(Color.BLACK);
+    this.setLayout(new BorderLayout());
+    this.setBounds(0, 0, LENGTH, HEIGHT);
+    this.setSize(DIMENSIONS);
+    this.add(panel, BorderLayout.CENTER);
+    this.setTitle("Jack and Ryan's Spreadsheet");
+    this.pack();
     this.setVisible(true);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 
   @Override
@@ -78,7 +82,7 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   public static void main(String[] args) {
     try {
       FileReader f = new FileReader(
-              new File("C:\\Users\\jfri9\\OneDrive\\Desktop\\WorksheetExample.txt"));
+              new File("/Users/ryanquinn/Desktop/worksheet 2/WorksheetExample.txt"));
       Worksheet builder = new Worksheet();
       WorksheetReader.read(builder, f);
       WorksheetModel<Cell> model = builder.createWorksheet();

@@ -9,11 +9,14 @@ import javax.swing.table.TableColumn;
 /**
  * Class that allows infinite scrolling feature in horizontal direction.
  */
-public class InfiniteScrollH implements AdjustmentListener {
+class InfiniteScrollH implements AdjustmentListener {
   JScrollPane p;
   BasicTableColumnModel t;
 
-  public InfiniteScrollH(JScrollPane p, BasicTableColumnModel t) {
+  InfiniteScrollH(JScrollPane p, BasicTableColumnModel t) {
+    if (p  == null || t == null) {
+      throw new IllegalArgumentException("tried to pass in null");
+    }
     this.p = p;
     this.t = t;
   }

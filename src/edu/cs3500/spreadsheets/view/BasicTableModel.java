@@ -16,7 +16,10 @@ public class BasicTableModel extends AbstractTableModel {
   /**
    * Constructor only takes in a WorksheetModel.
    */
-  public BasicTableModel(WorksheetModel<Cell> model) {
+  BasicTableModel(WorksheetModel<Cell> model) {
+    if (model == null) {
+      throw new IllegalArgumentException("tried to pass in null model");
+    }
     this.model = model;
     this.row = this.model.getMaxRow();
     this.col = this.model.getMaxCol();

@@ -33,7 +33,7 @@ public class BasicWorksheet implements WorksheetModel<Cell> {
     Cell c = new Cell(this.toBecomeGrid.getOrDefault(key, new Blank()).simplify(
             grid, new ArrayList<>()), key);
     if (c.isValid(this.grid)) {
-      return c.toString();
+      return c.toEvaluatedString();
     } else {
       return "#REF!";
     }

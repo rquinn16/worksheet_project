@@ -14,6 +14,9 @@ public class WorksheetTextualView implements WorksheetView {
   private final BufferedWriter appendable;
 
   public WorksheetTextualView(WorksheetModel<?> model) throws IOException {
+    if (model  == null) {
+      throw new IllegalArgumentException("tried to pass in null");
+    }
     this.model = model;
     this.appendable = new BufferedWriter(
             new FileWriter("/Users/ryanquinn/Desktop/sheet.txt"));
