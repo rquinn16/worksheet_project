@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 
 /**
  * Represents the graphical view of a Worksheet.
@@ -35,7 +34,8 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   @Override
   public void render() throws IOException {
     this.panel = new JPanel();
-    JTable dataTable = new JTable(new BasicTableModel(this.model)) {
+    BasicTableModel t = new BasicTableModel(this.model);
+    JTable dataTable = new JTable(t) {
       @Override
       public boolean isCellEditable(int row, int column) {
         return true;
@@ -56,7 +56,8 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
     this.panel.add(scroll);
     this.panel.setSize(LENGTH, HEIGHT);
     this.setSize(LENGTH, HEIGHT);
-
+    scroll.getHorizontalScrollBar().addAdjustmentListener(new InfiniteScrollH(scroll, t));
+    scroll.getVerticalScrollBar().addAdjustmentListener(new InfiniteScrollV(scroll, t));
     this.add(panel);
     dataTable.setShowGrid(true);
     dataTable.setGridColor(Color.BLACK);
@@ -74,7 +75,7 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   public static void main(String[] args) {
     try {
       FileReader f = new FileReader(
-              new File("/Users/ryanquinn/Desktop/worksheet 2/WorksheetExample.txt"));
+              new File("C:\\Users\\jfri9\\OneDrive\\Desktop\\WorksheetExample.txt"));
       Worksheet builder = new Worksheet();
       WorksheetReader.read(builder, f);
       WorksheetModel<Cell> model = builder.createWorksheet();
