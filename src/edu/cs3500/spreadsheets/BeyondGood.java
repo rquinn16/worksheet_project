@@ -1,57 +1,107 @@
 package edu.cs3500.spreadsheets;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.swing.*;
-
+import edu.cs3500.spreadsheets.model.BasicWorksheet;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.Worksheet;
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.view.WorksheetGraphicalView;
+import edu.cs3500.spreadsheets.view.WorksheetTextualView;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The main class for our program.
  */
 public class BeyondGood {
+
   /**
    * The main entry point.
+   *
    * @param args any command-line arguments
    */
   public static void main(String[] args) {
-    /*
-      TODO: For now, look in the args array to obtain a filename and a cell name,
-      - read the file and build a model from it, 
-      - evaluate all the cells, and
-      - report any errors, or print the evaluated value of the requested cell.
-    */
+    switch (args.length) {
+      case 1:
+        BeyondGood.caseOne(args);
+        break;
+      case 3:
+        BeyondGood.caseThree(args);
+        break;
+      case 4:
+        BeyondGood.caseFour(args);
+      default:
+        System.out.println("Incorrect arguments");
+        break;
+    }
+  }
+
+  private static void caseOne(String[] args) {
+    if (args[0].equals("-gui")) {
+      new WorksheetGraphicalView(new BasicWorksheet()).render();
+    } else {
+      System.out.println("Incorrect argument.");
+    }
+  }
+
+  private static void caseThree(String[] args) {
     try {
-      if (!args[0].equals("-in")) {
-        System.out.print("Must indicate a file with -in");
+      if (!args[0].equals("-in") || !args[2].equals("-gui")) {
+        System.out.print("Incorrect argument.");
       }
       FileReader f = new FileReader(new File(args[1]));
       Worksheet builder = new Worksheet();
       WorksheetReader.read(builder, f);
       WorksheetModel<Cell> model = builder.createWorksheet();
-      WorksheetGraphicalView view = new WorksheetGraphicalView(model);
-      view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      if (!args[2].equals("-eval")) {
-        System.out.print("Must evaluate a cell with -eval");
-      }
-      ArrayList<String> cellCoords = parseSingularReference(args[3]);
-      System.out.print(model.displayCell(Coord.colNameToIndex(cellCoords.get(0)),
-              Integer.parseInt(cellCoords.get(1))));
+      new WorksheetGraphicalView(model).render();
     } catch (FileNotFoundException e) {
-      System.out.print("Something went wrong.");
+      System.out.println("Something went wrong.");
     }
   }
 
-  static private ArrayList<String> parseSingularReference(String s) {
+  private static void caseFour(String[] args) {
+    try {
+      if (!args[0].equals("-in")) {
+        System.out.print("Must indicate a file with -in.");
+      }
+      FileReader f = new FileReader(new File(args[1]));
+      Worksheet builder = new Worksheet();
+      WorksheetReader.read(builder, f);
+      WorksheetModel<Cell> model = builder.createWorksheet();
+      if (args[2].equals("-eval")) {
+        BeyondGood.cellEval(args, model);
+      } else if (args[2].equals("-save")) {
+        BeyondGood.save(args, model);
+      } else {
+        System.out.println("Incorrect arguments.");
+      }
+    } catch (FileNotFoundException e) {
+      System.out.println("Something went wrong.");
+    }
+  }
+
+  private static void cellEval(String[] args, WorksheetModel<Cell> model) {
+    ArrayList<String> cellCoords = parseSingularReference(args[3]);
+    System.out.print(model.displayCell(Coord.colNameToIndex(cellCoords.get(0)),
+        Integer.parseInt(cellCoords.get(1))));
+  }
+
+  private static void save(String[] args, WorksheetModel<Cell> model) {
+    try {
+      WorksheetTextualView view = new WorksheetTextualView(model,
+          args[3]);
+      view.render();
+    } catch (IOException e) {
+      System.out.println("Something went wrong.");
+    }
+  }
+
+  private static ArrayList<String> parseSingularReference(String s) {
     boolean atLetters = true;
     StringBuilder col = new StringBuilder();
     StringBuilder row = new StringBuilder();

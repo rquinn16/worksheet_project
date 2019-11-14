@@ -31,8 +31,8 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
 
   @Override
   public void render() {
-    int LENGTH = 1600;
-    int HEIGHT = 900;
+    int LENGTH = 1400;
+    int HEIGHT = 600;
     Dimension DIMENSIONS = new Dimension(LENGTH, HEIGHT);
 
     BasicTableModel t = new BasicTableModel(this.model);
@@ -82,7 +82,7 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
   public static void main(String[] args) {
     try {
       FileReader f = new FileReader(
-              new File("/Users/ryanquinn/Desktop/worksheet 2/WorksheetExample.txt"));
+              new File("C:\\Users\\jfri9\\OneDrive\\Desktop\\WorksheetExample.txt"));
       Worksheet builder = new Worksheet();
       WorksheetReader.read(builder, f);
       WorksheetModel<Cell> model = builder.createWorksheet();
