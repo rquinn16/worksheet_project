@@ -66,9 +66,10 @@ public class Function implements Formula {
     for (Formula f : this.args) {
       result.append(f.toString().substring(1)).append(" ");
     }
-    result.substring(0, result.length() - 1);
-    result.append(")");
-    return result.toString();
+    String toReturn = result.toString();
+    toReturn = toReturn.substring(0, result.length() - 1);
+    toReturn += ")";
+    return toReturn;
   }
 
   @Override

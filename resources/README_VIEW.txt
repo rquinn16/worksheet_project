@@ -11,8 +11,8 @@ a cell's evaluated String but we decided to add a String method to get a cell's 
 
 WorksheetGraphicalView is much more complex, as this is the class that actually renders the visible grid in the style of 
 Microsoft Excel and Google Sheets. We decided to utilize the JTable and JScrollPane classes in JSwing. Two challenges we faced
-were displaying the row numbers as this is not built into JTable, and implementing infinite scrolling. To rememdy these issues,
-we created a class DisplayRowNumbers that extended JTable whichis essentially a one column JTable whose purpose is only to 
+were displaying the row numbers as this is not built into JTable, and implementing infinite scrolling. To remedy these issues,
+we created a class DisplayRowNumbers that extended JTable which is essentially a one column JTable whose purpose is only to
 display row numbers. A ChangeListener and PropertyChangeListener are implemented in this class to listen to the scrolling
 in the main JTable with the data and JScrollPane, and these listeners synchronize the scrolling on the spreadsheet with
 scrolling down the row numbers. In implementing the actual data JTable, we created a class BasicTableModel which allows the

@@ -35,6 +35,7 @@ public class BeyondGood {
         break;
       case 4:
         BeyondGood.caseFour(args);
+        break;
       default:
         System.out.println("Incorrect arguments");
         break;
@@ -60,7 +61,7 @@ public class BeyondGood {
       WorksheetModel<Cell> model = builder.createWorksheet();
       new WorksheetGraphicalView(model).render();
     } catch (FileNotFoundException e) {
-      System.out.println("Something went wrong.");
+      e.printStackTrace();
     }
   }
 
@@ -81,7 +82,7 @@ public class BeyondGood {
         System.out.println("Incorrect arguments.");
       }
     } catch (FileNotFoundException e) {
-      System.out.println("Something went wrong.");
+      e.printStackTrace();
     }
   }
 
@@ -93,15 +94,14 @@ public class BeyondGood {
 
   private static void save(String[] args, WorksheetModel<Cell> model) {
     try {
-      WorksheetTextualView view = new WorksheetTextualView(model,
-          args[3]);
+      WorksheetTextualView view = new WorksheetTextualView(model, args[3]);
       view.render();
     } catch (IOException e) {
-      System.out.println("Something went wrong.");
+      e.printStackTrace();
     }
   }
 
-  private static ArrayList<String> parseSingularReference(String s) {
+  static ArrayList<String> parseSingularReference(String s) {
     boolean atLetters = true;
     StringBuilder col = new StringBuilder();
     StringBuilder row = new StringBuilder();
