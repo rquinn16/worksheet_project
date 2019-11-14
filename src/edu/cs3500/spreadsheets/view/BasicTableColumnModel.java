@@ -8,7 +8,7 @@ import javax.swing.table.TableModel;
 /**
  * Class representing a model for the columns in our spreadsheet.
  */
-public class BasicTableColumnModel extends DefaultTableColumnModel {
+class BasicTableColumnModel extends DefaultTableColumnModel {
 
   private TableModel t;
   private int col;
@@ -17,7 +17,7 @@ public class BasicTableColumnModel extends DefaultTableColumnModel {
    * Constructor for BasicTableColumnModel.
    * @param t
    */
-  public BasicTableColumnModel(TableModel t) {
+  BasicTableColumnModel(TableModel t) {
     this.t = t;
     this.col = t.getColumnCount();
     this.addAllColumns();
@@ -31,7 +31,7 @@ public class BasicTableColumnModel extends DefaultTableColumnModel {
     }
   }
 
-  public int addToCol() {
+  int addToCol() {
     this.col++;
     return col;
   }

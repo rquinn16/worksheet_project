@@ -1,4 +1,4 @@
-A1 3
+A1 =(PRODUCT (SUM 2 2) 4)
 A2 true
 A3 "a"
 B1 =A1
@@ -9,5 +9,6 @@ B5 =B4
 B6 =B5
 B7 =A1:B2
 C1 =(SUM A1:B1)
+C69 96
 
 PP55 =(SUM A1 A2)
