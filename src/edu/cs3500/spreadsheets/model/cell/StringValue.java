@@ -43,4 +43,9 @@ public class StringValue extends AbstractValue<String> {
   public int hashCode() {
     return Objects.hash(val);
   }
+
+  @Override
+  public String toString() {
+    return "\"" + this.val + "\"";
+  }
 }

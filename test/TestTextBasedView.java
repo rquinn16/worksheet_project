@@ -34,6 +34,11 @@ public class TestTextBasedView {
       expectedWriter.append("A1 1.000000\n");
       expectedWriter.write("A2 1.000000\n");
       expectedWriter.write("A3 =(SUM A1:A2)\n");
+      expectedWriter.write("A4 =(SUM A1:A2 A4)\n");
+      expectedWriter.write("AA555 =A1\n");
+      expectedWriter.write("B1 =A1:A4\n");
+      expectedWriter.write("C1 true\n");
+      expectedWriter.write("C2 \"string\"\n");
       expectedWriter.close();
 
       WorksheetModel<Cell> sheet = new Worksheet().createWorksheet();
@@ -41,8 +46,13 @@ public class TestTextBasedView {
               "resources/actualoutput.txt");
 
       sheet.addCell(1, 1, "1");
-      sheet.addCell(1, 2 , "1");
+      sheet.addCell(1, 2, "1");
       sheet.addCell(1, 3, "(SUM A1:A2)");
+      sheet.addCell(1, 4, "(SUM A1:A2 A4)");
+      sheet.addCell(27, 555, "A1");
+      sheet.addCell(2, 1, "A1:A4");
+      sheet.addCell(3, 1, "true");
+      sheet.addCell(3, 2, "\"string\"");
 
       output.render();
 
@@ -76,7 +86,6 @@ public class TestTextBasedView {
       for (int i = 0; i < expectedLines.size(); i++) {
         assertEquals(expectedLines.get(i), actualLines.get(i));
       }
-
     } catch (Exception e) {
       e.printStackTrace();
     }
