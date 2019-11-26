@@ -7,6 +7,7 @@ import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.view.WorksheetGraphicalView;
+import edu.cs3500.spreadsheets.view.WorksheetGraphicalViewDisplayRaw;
 import edu.cs3500.spreadsheets.view.WorksheetTextualView;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,16 +53,22 @@ public class BeyondGood {
 
   private static void caseThree(String[] args) {
     try {
-      if (!args[0].equals("-in") || !args[2].equals("-gui")) {
+      if (!args[0].equals("-in")) {
         System.out.print("Incorrect argument.");
       }
       FileReader f = new FileReader(new File(args[1]));
       Worksheet builder = new Worksheet();
       WorksheetReader.read(builder, f);
       WorksheetModel<Cell> model = builder.createWorksheet();
-      new WorksheetGraphicalView(model).render();
+      if (args[2].equals("-gui")) {
+        new WorksheetGraphicalView(model).render();
+      } else if (args[2].equals("-edit")) {
+        new WorksheetGraphicalViewDisplayRaw(model).render();
+      } else {
+        System.out.print("Incorrect argument.");
+      }
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      System.out.println("File not found");
     }
   }
 
@@ -82,7 +89,7 @@ public class BeyondGood {
         System.out.println("Incorrect arguments.");
       }
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      System.out.println("File not found");
     }
   }
 
@@ -97,7 +104,7 @@ public class BeyondGood {
       WorksheetTextualView view = new WorksheetTextualView(model, args[3]);
       view.render();
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println("File not found");
     }
   }
 

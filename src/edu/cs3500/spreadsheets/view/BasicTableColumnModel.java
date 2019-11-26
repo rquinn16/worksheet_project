@@ -15,7 +15,7 @@ class BasicTableColumnModel extends DefaultTableColumnModel {
 
   /**
    * Constructor for BasicTableColumnModel.
-   * @param t
+   * @param t The TableModel that is taken in to base this column model off of.
    */
   BasicTableColumnModel(TableModel t) {
     this.t = t;
@@ -24,15 +24,15 @@ class BasicTableColumnModel extends DefaultTableColumnModel {
   }
 
   private void addAllColumns() {
-    for (int i = 0; i < this.t.getColumnCount(); i++) {
-      TableColumn toAdd = new TableColumn(i);
-      toAdd.setHeaderValue(Coord.colIndexToName(i + 1));
+    for (int i = 1; i <= this.t.getColumnCount(); i++) {
+      TableColumn toAdd = new TableColumn(i - 1);
+      toAdd.setHeaderValue(Coord.colIndexToName(i));
       this.addColumn(toAdd);
     }
   }
 
   int addToCol() {
-    this.col++;
-    return col;
+    this.col += 1;
+    return this.col;
   }
 }

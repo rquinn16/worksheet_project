@@ -22,11 +22,6 @@ public class BasicWorksheet implements WorksheetModel<Cell> {
     this.toBecomeGrid = new HashMap<>();
   }
 
-  public BasicWorksheet(ArrayList<Cell> cells) {
-    this.grid = cells;
-    this.toBecomeGrid = new HashMap<>();
-  }
-
   @Override
   public String displayCell(int col, int row) {
     Coord key = new Coord(col, row);
@@ -35,13 +30,15 @@ public class BasicWorksheet implements WorksheetModel<Cell> {
     if (c.isValid(this.grid)) {
       return c.toEvaluatedString();
     } else {
-      return "#REF!";
+     return "#REF!";
     }
   }
 
   @Override
   public String getRawContents(int col, int row) {
-    return null;
+    Coord key = new Coord(col, row);
+    Cell c = new Cell(this.toBecomeGrid.getOrDefault(key, new Blank()), key);
+    return c.toString();
   }
 
   @Override

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="worksheet:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/worksheet_jar</output-path>
+    <root id="archive" name="worksheet.jar">
+      <element id="module-output" name="worksheet" />
+    </root>
+  </artifact>
+</component>

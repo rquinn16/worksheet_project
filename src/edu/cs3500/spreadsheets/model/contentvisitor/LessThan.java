@@ -38,11 +38,10 @@ public class LessThan implements ContentVisitor<Boolean> {
 
   @Override
   public void visitDouble(DoubleValue d) {
-    if (this.index > 1) {
-      throw new IllegalStateException("Too many arguments.");
+    if (this.index < 2) {
+      this.toCompare[this.index] = d.getValue();
+      this.index++;
     }
-    this.toCompare[this.index] = d.getValue();
-    this.index ++;
   }
 
   @Override

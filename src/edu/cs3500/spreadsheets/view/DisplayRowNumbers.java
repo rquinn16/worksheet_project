@@ -1,10 +1,13 @@
 package edu.cs3500.spreadsheets.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
+import javax.swing.JTable;
+import javax.swing.JViewport;
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.TableColumn;
@@ -13,7 +16,7 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
   private JTable dataTable;
 
   DisplayRowNumbers(JTable dataTable) {
-    if (dataTable  == null) {
+    if (dataTable == null) {
       throw new IllegalArgumentException("tried to pass in null");
     }
     this.dataTable = dataTable;
@@ -69,7 +72,7 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
 
   @Override
   public void stateChanged(ChangeEvent evt) {
-    if (evt  == null) {
+    if (evt == null) {
       throw new IllegalArgumentException("tried to pass in null");
     }
     JViewport viewport = (JViewport) evt.getSource();
@@ -79,7 +82,7 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    if (evt  == null) {
+    if (evt == null) {
       throw new IllegalArgumentException("tried to pass in null");
     }
     switch (evt.getPropertyName()) {
@@ -92,6 +95,8 @@ class DisplayRowNumbers extends JTable implements ChangeListener, PropertyChange
       case "model":
         this.dataTable.getModel().addTableModelListener(this);
         this.revalidate();
+        break;
+      default:
         break;
     }
   }

@@ -24,7 +24,8 @@ class InfiniteScrollH implements AdjustmentListener {
   @Override
   public void adjustmentValueChanged(AdjustmentEvent e) {
     int extentH = p.getHorizontalScrollBar().getModel().getExtent();
-    if (p.getHorizontalScrollBar().getValue() + extentH == p.getHorizontalScrollBar().getMaximum()) {
+    if (p.getHorizontalScrollBar().getValue() + extentH
+            == p.getHorizontalScrollBar().getMaximum()) {
       TableColumn toAdd = new TableColumn(t.addToCol());
       toAdd.setHeaderValue(Coord.colIndexToName(t.getColumnCount() + 1));
       this.t.addColumn(toAdd);

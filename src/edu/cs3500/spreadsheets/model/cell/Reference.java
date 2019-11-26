@@ -1,6 +1,8 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -95,7 +97,7 @@ public class Reference implements Formula {
 
   @Override
   public String toEvaluatedString() {
-    if (this.referenced.size() == 1) {
+   if (this.referenced.size() == 1) {
       return this.referenced.get(0).toEvaluatedString();
     } else if (this.referenced.size() > 1) {
       return "#REF!";
