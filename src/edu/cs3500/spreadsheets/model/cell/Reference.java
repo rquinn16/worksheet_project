@@ -1,13 +1,11 @@
 package edu.cs3500.spreadsheets.model.cell;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import edu.cs3500.spreadsheets.model.contentvisitor.ContentVisitor;
 import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.contentvisitor.ContentVisitor;
 
 /**
  * Represents a reference to a rectangular region of cells on a given Spreadsheet.

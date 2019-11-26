@@ -20,6 +20,7 @@ import edu.cs3500.spreadsheets.model.cell.Cell;
 public class WorksheetGraphicalView extends JFrame implements WorksheetView {
 
   protected WorksheetModel<Cell> model;
+  protected JTable dataTable;
 
   /**
    * Constructor for the WorksheetGraphicalView.
@@ -36,21 +37,7 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
     Dimension dimensions = new Dimension(length, height);
     BasicTableModel t = new BasicTableModel(this.model);
     BasicTableColumnModel c = new BasicTableColumnModel(t);
-    JTable dataTable = new JTable(t, c) {
-      @Override
-      public boolean isCellEditable(int row, int column) {
-        return true;
-      }
-    };
-    dataTable.getTableHeader().setReorderingAllowed(false);
-    dataTable.getTableHeader().setResizingAllowed(false);
-    dataTable.setRowHeight(30);
-    dataTable.getColumnModel().setColumnMargin(1);
-    dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    dataTable.setSize(dimensions);
-    dataTable.setPreferredScrollableViewportSize(dimensions);
-    dataTable.setShowGrid(true);
-    dataTable.setGridColor(Color.BLACK);
+    configureJTable(dimensions, t, c);
     JTable rowNumbers = new DisplayRowNumbers(dataTable);
     JScrollPane scroll = new JScrollPane(dataTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -83,15 +70,8 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
   }
 
-  protected void setUpDataTable(JTable dataTable, Dimension dimensions, BasicTableModel t,
-                                BasicTableColumnModel c) {
-    dataTable = getjTable(dimensions, t, c);
-  }
 
-
-
-  static JTable getjTable(Dimension dimensions, BasicTableModel t, BasicTableColumnModel c) {
-    JTable dataTable;
+  protected void configureJTable(Dimension dimensions, BasicTableModel t, BasicTableColumnModel c) {
     dataTable = new JTable(t, c) {
       @Override
       public boolean isCellEditable(int row, int column) {
@@ -107,6 +87,5 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
     dataTable.setPreferredScrollableViewportSize(dimensions);
     dataTable.setShowGrid(true);
     dataTable.setGridColor(Color.BLACK);
-    return dataTable;
   }
 }

@@ -23,7 +23,7 @@ public class BasicTableModel extends AbstractTableModel {
     }
     this.model = model;
     this.row = this.model.getMaxRow();
-    this.col = this.model.getMaxCol() + 1;
+    this.col = this.model.getMaxCol();
   }
 
   @Override

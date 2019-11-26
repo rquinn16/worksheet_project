@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets;
 
+import edu.cs3500.spreadsheets.controller.BasicWorksheetController;
 import edu.cs3500.spreadsheets.model.BasicWorksheet;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.Worksheet;
@@ -63,7 +64,7 @@ public class BeyondGood {
       if (args[2].equals("-gui")) {
         new WorksheetGraphicalView(model).render();
       } else if (args[2].equals("-edit")) {
-        new WorksheetGraphicalViewDisplayRaw(model).render();
+        new BasicWorksheetController(model).start();
       } else {
         System.out.print("Incorrect argument.");
       }

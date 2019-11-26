@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 public class BasicWorksheetController implements WorksheetController {
 
   private WorksheetModel<Cell> model;
-  private WorksheetGraphicalViewDisplayRaw view;
 
   /**
    * Constructor for a worksheet controller.
@@ -24,12 +23,12 @@ public class BasicWorksheetController implements WorksheetController {
    */
   public BasicWorksheetController(WorksheetModel<Cell> m) {
     this.model = m;
-    this.view = new WorksheetGraphicalViewDisplayRaw(this.model);
   }
 
   @Override
   public void start() {
-    this.view.render();
+    WorksheetGraphicalViewDisplayRaw view = new WorksheetGraphicalViewDisplayRaw(this.model);
+    view.render();
   }
 
   /**
@@ -51,12 +50,7 @@ public class BasicWorksheetController implements WorksheetController {
     this.model.addCell(row, col, contents);
   }
 
-  // ryan is this what we need to do ryan i am so confused help me ryan help me understand
   public void updateValue(BasicTableModel basic, JTable table, JTextField txt) {
     basic.setValueAt(txt.getText(), table.getSelectedRow(), table.getSelectedColumn());
   }
-
-  /**
-   * Bro I'm literally going to kill myself what is happening
-   */
 }
