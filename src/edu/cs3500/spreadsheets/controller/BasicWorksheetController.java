@@ -2,7 +2,10 @@ package edu.cs3500.spreadsheets.controller;
 
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.cell.Cell;
+import edu.cs3500.spreadsheets.view.BasicTableModel;
 import edu.cs3500.spreadsheets.view.WorksheetGraphicalViewDisplayRaw;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  * Represents a simple controller for our Worksheet class.
@@ -47,4 +50,13 @@ public class BasicWorksheetController implements WorksheetController {
   public void addCell(int row, int col, String contents) {
     this.model.addCell(row, col, contents);
   }
+
+  // ryan is this what we need to do ryan i am so confused help me ryan help me understand
+  public void updateValue(BasicTableModel basic, JTable table, JTextField txt) {
+    basic.setValueAt(txt.getText(), table.getSelectedRow(), table.getSelectedColumn());
+  }
+
+  /**
+   * Bro I'm literally going to kill myself what is happening
+   */
 }
