@@ -90,6 +90,7 @@ public class LessThan implements ContentVisitor<Boolean> {
   @Override
   public void reset() {
     this.toCompare = new double[2];
+    this.index = 0;
   }
 
   @Override
