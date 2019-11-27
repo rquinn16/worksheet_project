@@ -1,77 +1,64 @@
 package edu.cs3500.spreadsheets.view;
 
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Map;
-
-import javax.swing.*;
-
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.Content;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Point;
+import java.awt.TextField;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Map;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
-public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
+public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView
+    implements EditableWorksheetView {
+
+  private int length;
+  private int height;
+  private Dimension dimensions;
+  private BasicTableModel basicTableModel;
+  private BasicTableColumnModel basicTableColumnModel;
+  private JTextField textField;
+  private JButton confirm;
+  private JButton undo;
+
 
   /**
    * Constructor for the WorksheetGraphicalView. It makes a default, empty table.
    *
-   * @param model
+   import javax.swing.JPanel;
+   * @param model The view will be rendered based on the information in the model.
    */
   public WorksheetGraphicalViewDisplayRaw(WorksheetModel<Cell> model) {
     super(model);
+    this.length = 1400;
+    this.height = 600;
+    this.dimensions = new Dimension(length, height);
+    this.basicTableModel = new BasicTableModel(this.model);
+    this.basicTableColumnModel = new BasicTableColumnModel(basicTableModel);
+    this.configureJTable(dimensions, basicTableModel, basicTableColumnModel);
+    this.textField = new JTextField();
+    this.confirm = new JButton("✔");
+    this.undo = new JButton("✗");
   }
 
   @Override
   public void render() {
-    int length = 1400;
-    int height = 600;
-    Dimension dimensions = new Dimension(length, height);
-    BasicTableModel basicTableModel = new BasicTableModel(this.model);
-    BasicTableColumnModel basicTableColumnModel = new BasicTableColumnModel(basicTableModel);
-    configureJTable(dimensions, basicTableModel, basicTableColumnModel);
     fillFromModel(basicTableModel);
-    JTextField textField = new JTextField();
     configureTextField(textField, basicTableModel, length);
-    dataTable.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        int r = dataTable.rowAtPoint(e.getPoint());
-        int c = dataTable.columnAtPoint(e.getPoint());
-        int cols = basicTableModel.getColumnCount();
-        if (c >= cols) {
-          textField.setText(basicTableModel.getRawValue(r, c + 1));
-        } else {
-          textField.setText(basicTableModel.getRawValue(r, c));
-        }
-        dataTable.repaint();
-      }
-    });
-    JButton confirm = new JButton("✔");
-    confirm.addActionListener(e -> {
-      int r = dataTable.getSelectedRow();
-      int c = dataTable.getSelectedColumn();
-      String str = textField.getText();
-      try {
-        int cols = basicTableModel.getColumnCount();
-        if (c >= cols) {
-          basicTableModel.setValueAt(str, r, c + 1);
-          this.updateAll(basicTableModel);
-        } else {
-          basicTableModel.setValueAt(str, r, c);
-          this.updateAll(basicTableModel);
-        }
-        dataTable.repaint();
-      } catch (Exception ex) {
-        textField.setText(ex.getMessage());
-      }
-    });
-    JButton undo = new JButton("✗");
     String originalCellContent = textField.getText();
     undo.addActionListener(e -> textField.setText(originalCellContent));
     JScrollPane scroll = new JScrollPane(dataTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
@@ -86,7 +73,6 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
         basicTableColumnModel));
     scroll.getVerticalScrollBar().addAdjustmentListener(new InfiniteScrollV(scroll,
         basicTableModel));
-    basicTableModel.addTableModelListener(e -> dataTable.repaint());
     basicTableModel.fireTableDataChanged();
     this.repaint();
     this.setLayout(new BorderLayout());
@@ -103,6 +89,70 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
     this.pack();
     this.setVisible(true);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  }
+
+  @Override
+  public void updateCell(String content, int col, int row) {
+    basicTableModel.setValueAt(content, row, col);
+  }
+
+  @Override
+  public void setMouseListener(MouseListener mouseListener) {
+    dataTable.addMouseListener(mouseListener);
+  }
+
+  @Override
+  public void setActionListener(ActionListener actionListener) {
+    confirm.addActionListener(actionListener);
+  }
+
+  @Override
+  public int getSelectedColumn() {
+    return dataTable.getSelectedColumn();
+  }
+
+  @Override
+  public int getSelectedRow() {
+    return dataTable.getSelectedRow();
+  }
+
+  @Override
+  public String getCurrentText() {
+    return textField.getText();
+  }
+
+  @Override
+  public int getTableModelColumns() {
+    return basicTableModel.getColumnCount();
+  }
+
+  @Override
+  public void refresh() {
+    for (Map.Entry<Coord, Content> e : model.getAllCells().entrySet()) {
+      basicTableModel.setValueAt(e.getValue().toString(), e.getKey().row - 1,
+          e.getKey().col - 1);
+    }
+    dataTable.repaint();
+  }
+
+  @Override
+  public void updateText(String content) {
+    textField.setText(content);
+  }
+
+  @Override
+  public int getRowAtPoint(Point point) {
+    return dataTable.rowAtPoint(point);
+  }
+
+  @Override
+  public int getColumnAtPoint(Point point) {
+    return dataTable.columnAtPoint(point);
+  }
+
+  @Override
+  public String getRawValueAt(int col, int row) {
+    return basicTableModel.getRawValue(row, col);
   }
 
   @Override
@@ -141,24 +191,5 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
       int length) {
     textField.setPreferredSize(new Dimension(length, 20));
     textField.setText("");
-
-    textField.addKeyListener(new KeyAdapter() {
-      @Override
-      public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-          int r = dataTable.getSelectedRow();
-          int c = dataTable.getSelectedColumn();
-          String str = textField.getText();
-          basicTableModel.setValueAt(str, r, c);
-          repaint();
-        }
-      }
-    });
-  }
-
-  private void updateAll(BasicTableModel basic) {
-    for (Map.Entry<Coord, Content> e : this.model.getAllCells().entrySet()) {
-      basic.setValueAt(e.getValue().toString(), e.getKey().row - 1, e.getKey().col - 1);
-    }
   }
 }

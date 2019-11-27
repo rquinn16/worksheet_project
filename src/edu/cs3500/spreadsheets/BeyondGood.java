@@ -1,6 +1,6 @@
 package edu.cs3500.spreadsheets;
 
-import edu.cs3500.spreadsheets.controller.BasicWorksheetController;
+import edu.cs3500.spreadsheets.controller.EditableWorksheetController;
 import edu.cs3500.spreadsheets.model.BasicWorksheet;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.Worksheet;
@@ -8,7 +8,6 @@ import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.view.WorksheetGraphicalView;
-import edu.cs3500.spreadsheets.view.WorksheetGraphicalViewDisplayRaw;
 import edu.cs3500.spreadsheets.view.WorksheetTextualView;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -64,7 +63,7 @@ public class BeyondGood {
       if (args[2].equals("-gui")) {
         new WorksheetGraphicalView(model).render();
       } else if (args[2].equals("-edit")) {
-        new BasicWorksheetController(model).start();
+        new EditableWorksheetController(model).start();
       } else {
         System.out.print("Incorrect argument.");
       }
