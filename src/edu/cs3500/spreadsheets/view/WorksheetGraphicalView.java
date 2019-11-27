@@ -1,19 +1,18 @@
 package edu.cs3500.spreadsheets.view;
 
-import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.model.cell.Content;
+import edu.cs3500.spreadsheets.model.WorksheetModel;
+import edu.cs3500.spreadsheets.model.cell.Cell;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-
-import java.util.Map;
-import javax.swing.*;
-
-import edu.cs3500.spreadsheets.model.WorksheetModel;
-import edu.cs3500.spreadsheets.model.cell.Cell;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * Represents the graphical view of a Worksheet in the style of Excel's spreadsheet view.
@@ -55,11 +54,6 @@ public class WorksheetGraphicalView extends JFrame implements WorksheetView {
     this.setBounds(0, 0, length, HEIGHT);
     this.setSize(dimensions);
     this.add(panel, BorderLayout.CENTER);
-
-
-
-
-
     this.setTitle("Jack and Ryan's Spreadsheet");
     this.pack();
     this.setVisible(true);

@@ -18,9 +18,6 @@ import javax.swing.event.TableModelListener;
 
 public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
 
-  //private BasicTableModel basicTable;
-  //private BasicTableColumnModel basicColumn;
-
   /**
    * Constructor for the WorksheetGraphicalView. It makes a default, empty table.
    *
@@ -64,8 +61,10 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
         int cols = basicTableModel.getColumnCount();
         if (c >= cols) {
           basicTableModel.setValueAt(str, r, c + 1);
+          this.updateAll(basicTableModel);
         } else {
           basicTableModel.setValueAt(str, r, c);
+          this.updateAll(basicTableModel);
         }
         dataTable.repaint();
       } catch (Exception ex) {
@@ -76,7 +75,7 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
     String originalCellContent = textField.getText();
     undo.addActionListener(e -> textField.setText(originalCellContent));
     JScrollPane scroll = new JScrollPane(dataTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     JTable rowNumbers = new DisplayRowNumbers(dataTable);
     scroll.setRowHeaderView(rowNumbers);
     scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowNumbers.getTableHeader());
@@ -84,9 +83,9 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
     panel.add(scroll, BorderLayout.CENTER);
     panel.setSize(dimensions);
     scroll.getHorizontalScrollBar().addAdjustmentListener(new InfiniteScrollH(scroll,
-            basicTableColumnModel));
+        basicTableColumnModel));
     scroll.getVerticalScrollBar().addAdjustmentListener(new InfiniteScrollV(scroll,
-            basicTableModel));
+        basicTableModel));
     basicTableModel.addTableModelListener(e -> dataTable.repaint());
     basicTableModel.fireTableDataChanged();
     this.repaint();
@@ -134,12 +133,12 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
   private void fillFromModel(BasicTableModel basicTableModel) {
     for (Map.Entry<Coord, Content> entry : this.model.getAllCells().entrySet()) {
       basicTableModel.setValueAt(entry.getValue().toString(),
-              entry.getKey().row - 1, entry.getKey().col - 1);
+          entry.getKey().row - 1, entry.getKey().col - 1);
     }
   }
 
   private void configureTextField(JTextField textField, BasicTableModel basicTableModel,
-                                  int length) {
+      int length) {
     textField.setPreferredSize(new Dimension(length, 20));
     textField.setText("");
 
@@ -155,5 +154,11 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
         }
       }
     });
+  }
+
+  private void updateAll(BasicTableModel basic) {
+    for (Map.Entry<Coord, Content> e : this.model.getAllCells().entrySet()) {
+      basic.setValueAt(e.getValue().toString(), e.getKey().row - 1, e.getKey().col - 1);
+    }
   }
 }
