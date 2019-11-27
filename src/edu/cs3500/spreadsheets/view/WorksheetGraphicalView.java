@@ -1,5 +1,7 @@
 package edu.cs3500.spreadsheets.view;
 
+import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.cell.Content;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
@@ -7,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+import java.util.Map;
 import javax.swing.*;
 
 import edu.cs3500.spreadsheets.model.WorksheetModel;

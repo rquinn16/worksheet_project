@@ -13,6 +13,8 @@ import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.Content;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
 
@@ -39,6 +41,20 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
     fillFromModel(basicTableModel);
     JTextField textField = new JTextField();
     configureTextField(textField, basicTableModel, length);
+    dataTable.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        int r = dataTable.rowAtPoint(e.getPoint());
+        int c = dataTable.columnAtPoint(e.getPoint());
+        int cols = basicTableModel.getColumnCount();
+        if (c >= cols) {
+          textField.setText(basicTableModel.getRawValue(r, c + 1));
+        } else {
+          textField.setText(basicTableModel.getRawValue(r, c));
+        }
+        dataTable.repaint();
+      }
+    });
     JButton confirm = new JButton("✔");
     confirm.addActionListener(e -> {
       int r = dataTable.getSelectedRow();
@@ -71,19 +87,8 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView {
             basicTableColumnModel));
     scroll.getVerticalScrollBar().addAdjustmentListener(new InfiniteScrollV(scroll,
             basicTableModel));
-    dataTable.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        int r = dataTable.rowAtPoint(e.getPoint());
-        int c = dataTable.columnAtPoint(e.getPoint());
-        int cols = basicTableModel.getColumnCount();
-        if (c >= cols) {
-          textField.setText(basicTableModel.getRawValue(r, c + 1));
-        } else {
-          textField.setText(basicTableModel.getRawValue(r, c));
-        }
-      }
-    });
+    basicTableModel.addTableModelListener(e -> dataTable.repaint());
+    basicTableModel.fireTableDataChanged();
     this.repaint();
     this.setLayout(new BorderLayout());
     this.setBounds(0, 0, length, HEIGHT);
