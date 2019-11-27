@@ -29,14 +29,12 @@ public interface WorksheetModel<K> {
    * @param contents The String to be parsed determining the contents of the cell.
    */
   void addCell(int col, int row, String contents);
-  //TODO rename set cell
 
   /**
    * Returns a list of every cell in the WorksheetModel.
    * @return A list of all cells in the WorksheetModel.
    */
   HashMap<Coord, Content> getAllCells();
-  //TODO add getCellAt(int col, int row)
 
   /**
    * Gets the number of the highest column in this table.

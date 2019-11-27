@@ -37,7 +37,7 @@ public class Cell {
     return this.content.isValid(cell, fromSheet, acc);
   }
 
-  Coord getPos() {
+  public Coord getPos() {
     int row = this.pos.row;
     int col = this.pos.col;
     return new Coord(col, row);

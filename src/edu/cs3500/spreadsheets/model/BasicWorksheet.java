@@ -8,6 +8,7 @@ import edu.cs3500.spreadsheets.sexp.Parser;
 import edu.cs3500.spreadsheets.sexp.Sexp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,12 +45,36 @@ public class BasicWorksheet implements WorksheetModel<Cell> {
   @Override
   public void addCell(int col, int row, String contents) {
     Sexp sexp = Parser.parse(contents);
-    // CREATE CONTENT THROWS AN EXCEPTION
     Content content = sexp.accept(new CreateContent(this.toBecomeGrid));
     Coord coord = new Coord(col, row);
     Cell c = new Cell(content, new Coord(col, row));
+    if (!coordExist(coord)) {
+      this.grid.add(c);
+    } else {
+      this.update(c);
+    }
     this.toBecomeGrid.put(coord, content);
+  }
+
+  private void update(Cell c) {
+    int toRemove = 0;
+    for (int i = 0; i < this.grid.size(); i++) {
+      if (this.grid.get(i).getPos().equals(c.getPos())) {
+        toRemove = i;
+      }
+    }
+    this.grid.remove(toRemove);
     this.grid.add(c);
+  }
+
+
+  private boolean coordExist(Coord c) {
+    for (Cell cell : this.grid) {
+      if (cell.getPos().equals(c)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override

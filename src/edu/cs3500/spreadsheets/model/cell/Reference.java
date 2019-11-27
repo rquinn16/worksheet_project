@@ -109,7 +109,6 @@ public class Reference implements Formula {
     visitor.visitReference(this);
   }
 
-
   /**
    * Gets copies of the references this reference refers to.
    * @return A list of the references in simplified form.
