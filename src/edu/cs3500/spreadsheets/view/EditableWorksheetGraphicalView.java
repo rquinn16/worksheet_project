@@ -20,7 +20,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
-public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView
+/**
+ * Class representing a view for our graph.
+ */
+public class EditableWorksheetGraphicalView extends WorksheetGraphicalView
     implements EditableWorksheetView {
 
   private int length;
@@ -39,7 +42,7 @@ public class WorksheetGraphicalViewDisplayRaw extends WorksheetGraphicalView
    import javax.swing.JPanel;
    * @param model The view will be rendered based on the information in the model.
    */
-  public WorksheetGraphicalViewDisplayRaw(WorksheetModel<Cell> model) {
+  public EditableWorksheetGraphicalView(WorksheetModel<Cell> model) {
     super(model);
     this.length = 1400;
     this.height = 600;

@@ -3,7 +3,7 @@ package edu.cs3500.spreadsheets.controller;
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.view.EditableWorksheetView;
-import edu.cs3500.spreadsheets.view.WorksheetGraphicalViewDisplayRaw;
+import edu.cs3500.spreadsheets.view.EditableWorksheetGraphicalView;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -26,7 +26,18 @@ public class EditableWorksheetController extends MouseAdapter implements Workshe
    */
   public EditableWorksheetController(WorksheetModel<Cell> m) {
     this.model = m;
-    this.view = new WorksheetGraphicalViewDisplayRaw(model);
+    this.view = new EditableWorksheetGraphicalView(model);
+  }
+
+  /**
+   * A constructor for testing purposes: this allows for us to see that the controller is actually
+   * affecting aspects of the view.
+   * @param m The model.
+   * @param view The view.
+   */
+  public EditableWorksheetController(WorksheetModel<Cell> m, EditableWorksheetView view) {
+    this.model = m;
+    this.view = view;
   }
 
   @Override

@@ -69,9 +69,7 @@ public class BasicTableModel extends AbstractTableModel {
     if (str.contains("=")) {
       str = str.substring(1);
       this.model.addCell(columnIndex + 1, rowIndex + 1, str);
-    } else if (str.equals("")) {
-      // do nothing
-    } else {
+    } else if (!str.equals("")) {
       this.model.addCell(columnIndex + 1, rowIndex + 1, str);
     }
   }

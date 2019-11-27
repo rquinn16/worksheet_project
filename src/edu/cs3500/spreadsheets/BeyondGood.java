@@ -46,6 +46,8 @@ public class BeyondGood {
   private static void caseOne(String[] args) {
     if (args[0].equals("-gui")) {
       new WorksheetGraphicalView(new BasicWorksheet()).render();
+    } else if (args[0].equals("-edit")) {
+      new EditableWorksheetController(new BasicWorksheet()).start();
     } else {
       System.out.println("Incorrect argument.");
     }

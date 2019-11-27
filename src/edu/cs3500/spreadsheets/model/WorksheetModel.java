@@ -18,6 +18,12 @@ public interface WorksheetModel<K> {
    */
   String displayCell(int col, int row);
 
+  /**
+   *
+   * @param col
+   * @param row
+   * @return
+   */
   String getRawContents(int col, int row);
 
   /**

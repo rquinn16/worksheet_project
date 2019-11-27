@@ -127,11 +127,11 @@ public class TestThroughBuilder {
     sheet.addCell(1, 2, "(BAD_NAME A1)");
   }
 
-//  @Test(expected = IllegalArgumentException.class)
-//  public void testInvalidFunctionInitializationLessThanBadInput() {
-//    WorksheetModel<Cell> sheet = new Worksheet().createWorksheet();
-//    sheet.addCell(1, 1, "false");
-//    sheet.addCell(1, 2, "true");
-//    sheet.addCell(1, 3, "(< A1 A2)");
-//  }
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidFunctionInitializationLessThanBadInput() {
+    WorksheetModel<Cell> sheet = new Worksheet().createWorksheet();
+    sheet.addCell(1, 1, "false");
+    sheet.addCell(1, 2, "true");
+    sheet.addCell(1, 3, "(< A1 A2)");
+  }
 }

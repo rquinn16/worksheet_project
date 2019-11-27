@@ -1,10 +1,8 @@
 package edu.cs3500.spreadsheets.model.cell;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import edu.cs3500.spreadsheets.model.Coord;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Represents a cell that holds some information content and has a position.

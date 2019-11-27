@@ -2,7 +2,6 @@ package edu.cs3500.spreadsheets.controller;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import javax.swing.Action;
 
 /**
  * Represents a controller interface for our controllers.
