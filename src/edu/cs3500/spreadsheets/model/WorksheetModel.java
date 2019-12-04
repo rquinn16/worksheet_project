@@ -19,10 +19,10 @@ public interface WorksheetModel<K> {
   String displayCell(int col, int row);
 
   /**
-   *
-   * @param col
-   * @param row
-   * @return
+   * Gets the raw, unevaluated cell string.
+   * @param col The column.
+   * @param row The row.
+   * @return The original string.
    */
   String getRawContents(int col, int row);
 

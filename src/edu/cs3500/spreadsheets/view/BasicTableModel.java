@@ -68,6 +68,10 @@ public class BasicTableModel extends AbstractTableModel {
     String str = (String) aValue;
     if (str.contains("=")) {
       str = str.substring(1);
+      System.out.println(str);
+      this.model.addCell(columnIndex + 1, rowIndex + 1, str);
+    } else if (str.substring(str.length() - 2).equals("))")) {
+      str = str.substring(0, str.length() - 2);
       this.model.addCell(columnIndex + 1, rowIndex + 1, str);
     } else if (!str.equals("")) {
       this.model.addCell(columnIndex + 1, rowIndex + 1, str);

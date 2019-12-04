@@ -35,6 +35,10 @@ public class Cell {
     return this.content.isValid(cell, fromSheet, acc);
   }
 
+  /**
+   * Gets the position of this cell.
+   * @return The position of this cell.
+   */
   public Coord getPos() {
     int row = this.pos.row;
     int col = this.pos.col;
@@ -49,6 +53,10 @@ public class Cell {
     return this.content.getContent();
   }
 
+  /**
+   * Gets the evaluated version of the content of this cell.
+   * @return The evaluated version of the content of this cell.
+   */
   public String toEvaluatedString() {
     return this.content.toEvaluatedString();
   }

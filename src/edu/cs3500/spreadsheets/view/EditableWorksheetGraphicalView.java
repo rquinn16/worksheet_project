@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.view;
 
+import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.cell.Cell;
@@ -10,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Map;
 import javax.swing.JButton;
@@ -27,32 +30,32 @@ public class EditableWorksheetGraphicalView extends WorksheetGraphicalView
     implements EditableWorksheetView {
 
   private int length;
-  private int height;
   private Dimension dimensions;
   private BasicTableModel basicTableModel;
   private BasicTableColumnModel basicTableColumnModel;
   private JTextField textField;
   private JButton confirm;
   private JButton undo;
+  private Features features;
 
 
   /**
    * Constructor for the WorksheetGraphicalView. It makes a default, empty table.
-   *
-   import javax.swing.JPanel;
    * @param model The view will be rendered based on the information in the model.
    */
   public EditableWorksheetGraphicalView(WorksheetModel<Cell> model) {
     super(model);
     this.length = 1400;
-    this.height = 600;
+    int height = 600;
     this.dimensions = new Dimension(length, height);
     this.basicTableModel = new BasicTableModel(this.model);
     this.basicTableColumnModel = new BasicTableColumnModel(basicTableModel);
     this.configureJTable(dimensions, basicTableModel, basicTableColumnModel);
     this.textField = new JTextField();
     this.confirm = new JButton("✔");
+    confirm.addActionListener(e -> features.updateCellContents());
     this.undo = new JButton("✗");
+
   }
 
   @Override
@@ -89,6 +92,11 @@ public class EditableWorksheetGraphicalView extends WorksheetGraphicalView
     this.pack();
     this.setVisible(true);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  }
+
+  @Override
+  public void addFeatures(Features features) {
+    this.features = features;
   }
 
   @Override
@@ -178,6 +186,15 @@ public class EditableWorksheetGraphicalView extends WorksheetGraphicalView
     dataTable.setShowGrid(true);
     dataTable.setGridColor(Color.BLACK);
     dataTable.setCellSelectionEnabled(true);
+    dataTable.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        Point point = e.getPoint();
+        int r = getRowAtPoint(point);
+        int c = getColumnAtPoint(point);
+        features.displayCellContents(c, r);
+      }
+    });
   }
 
   private void fillFromModel(BasicTableModel basicTableModel) {

@@ -2,26 +2,21 @@ package edu.cs3500.spreadsheets.controller;
 
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.cell.Cell;
-import edu.cs3500.spreadsheets.view.EditableWorksheetView;
 import edu.cs3500.spreadsheets.view.EditableWorksheetGraphicalView;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import edu.cs3500.spreadsheets.view.EditableWorksheetView;
 
 /**
- * Represents a simple controller for our Worksheet class.
- * Takes in a WorksheetModel<Cell> and creates a WorksheetGraphicalView with it.
+ * Represents a simple controller for our Worksheet class. Takes in a WorksheetModel and creates a
+ * WorksheetGraphicalView with it.
  */
-public class EditableWorksheetController extends MouseAdapter implements WorksheetController {
-
+public class EditableWorksheetController implements Features {
   private WorksheetModel<Cell> model;
   private EditableWorksheetView view;
 
   /**
-   * Constructor for a worksheet controller.
-   * Takes in only a WorksheetModel and constructs
-   * the WorksheetGraphicalView with it.
+   * Constructor for a worksheet controller. Takes in only a WorksheetModel and constructs the
+   * WorksheetGraphicalView with it.
+   *
    * @param m The model.
    */
   public EditableWorksheetController(WorksheetModel<Cell> m) {
@@ -30,9 +25,9 @@ public class EditableWorksheetController extends MouseAdapter implements Workshe
   }
 
   /**
-   * A constructor for testing purposes: this allows for us to see that the controller is actually
-   * affecting aspects of the view.
-   * @param m The model.
+   * A constructor that can specify the input view.
+   *
+   * @param m    The model.
    * @param view The view.
    */
   public EditableWorksheetController(WorksheetModel<Cell> m, EditableWorksheetView view) {
@@ -42,30 +37,30 @@ public class EditableWorksheetController extends MouseAdapter implements Workshe
 
   @Override
   public void start() {
-    this.view.setActionListener(this);
-    this.view.setMouseListener(this);
+    this.view.addFeatures(this);
     this.view.render();
   }
 
   @Override
-  public void mouseClicked(MouseEvent e) {
-    Point point = e.getPoint();
-    int r = view.getRowAtPoint(point);
-    int c = view.getColumnAtPoint(point);
+  public void displayCellContents(int col, int row) {
     int cols = view.getTableModelColumns();
-    if (c >= cols) {
-      view.updateText(view.getRawValueAt(c + 1, r));
+    if (col >= cols) {
+
+      String str = view.getRawValueAt(col + 1, row);
+      parserChecker(str);
     } else {
-      view.updateText(view.getRawValueAt(c, r));
+      String str = view.getRawValueAt(col, row);
+      parserChecker(str);
     }
     view.refresh();
   }
 
   @Override
-  public void actionPerformed(ActionEvent e) {
+  public void updateCellContents() {
     int r = view.getSelectedRow();
     int c = view.getSelectedColumn();
     String str = view.getCurrentText();
+    parserChecker(str);
     try {
       int cols = view.getTableModelColumns();
       if (c >= cols) {
@@ -78,5 +73,14 @@ public class EditableWorksheetController extends MouseAdapter implements Workshe
     } catch (Exception ex) {
       view.updateText(ex.getMessage());
     }
+  }
+
+  private void parserChecker(String str) {
+    if (str.length() >= 2 && str.substring(str.length() - 2).equals("))")) {
+      str = str.substring(0, str.length() - 1);
+      str = str.replaceAll("\\)", "");
+      str = str + ")";
+    }
+    view.updateText(str);
   }
 }

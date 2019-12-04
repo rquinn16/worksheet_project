@@ -1,14 +1,15 @@
 package edu.cs3500.spreadsheets.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.cs3500.spreadsheets.model.cell.Blank;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.Content;
 import edu.cs3500.spreadsheets.sexp.CreateContent;
 import edu.cs3500.spreadsheets.sexp.Parser;
 import edu.cs3500.spreadsheets.sexp.Sexp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Class representing a basic Worksheet.
@@ -30,7 +31,7 @@ public class BasicWorksheet implements WorksheetModel<Cell> {
     if (c.isValid(this.grid)) {
       return c.toEvaluatedString();
     } else {
-     return "#REF!";
+      return "#REF!";
     }
   }
 
@@ -43,7 +44,15 @@ public class BasicWorksheet implements WorksheetModel<Cell> {
 
   @Override
   public void addCell(int col, int row, String contents) {
-    Sexp sexp = Parser.parse(contents);
+    Sexp sexp;
+    if (contents.length() >= 2 && contents.substring(contents.length() - 2).equals("))")) {
+      String str = contents.substring(0, contents.length() - 1);
+      str = str.replaceAll("\\)", "");
+      str = str + ")";
+      sexp = Parser.parse(str);
+    } else {
+      sexp = Parser.parse(contents);
+    }
     Content content = sexp.accept(new CreateContent(this.toBecomeGrid));
     Coord coord = new Coord(col, row);
     Cell c = new Cell(content, new Coord(col, row));

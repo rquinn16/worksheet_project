@@ -7,6 +7,10 @@ import edu.cs3500.spreadsheets.model.Worksheet;
 import edu.cs3500.spreadsheets.model.WorksheetModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.cell.Cell;
+import edu.cs3500.spreadsheets.provider.view.model.worksheet.WorksheetAdapter;
+import edu.cs3500.spreadsheets.provider.view.view.NewViewEvaluated;
+import edu.cs3500.spreadsheets.provider.view.view.TableController;
+import edu.cs3500.spreadsheets.provider.view.view.ViewEvaluatedExpanded;
 import edu.cs3500.spreadsheets.view.WorksheetGraphicalView;
 import edu.cs3500.spreadsheets.view.WorksheetTextualView;
 import java.io.File;
@@ -48,6 +52,8 @@ public class BeyondGood {
       new WorksheetGraphicalView(new BasicWorksheet()).render();
     } else if (args[0].equals("-edit")) {
       new EditableWorksheetController(new BasicWorksheet()).start();
+    } else if (args[0].equals("-provider")) {
+      new ViewEvaluatedExpanded(new WorksheetAdapter(new BasicWorksheet())).display();
     } else {
       System.out.println("Incorrect argument.");
     }
@@ -66,6 +72,8 @@ public class BeyondGood {
         new WorksheetGraphicalView(model).render();
       } else if (args[2].equals("-edit")) {
         new EditableWorksheetController(model).start();
+      } else if (args[2].equals("-provider")) {
+        new ViewEvaluatedExpanded(new WorksheetAdapter(model)).display();
       } else {
         System.out.print("Incorrect argument.");
       }

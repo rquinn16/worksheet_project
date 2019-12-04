@@ -4,10 +4,18 @@ import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
+import edu.cs3500.spreadsheets.controller.Features;
+
 /**
  * Represents a view of the spreadsheet that the allows for user interaction.
  */
 public interface EditableWorksheetView extends WorksheetView {
+
+  /**
+   * Adds features to this view.
+   * @param features The features available.
+   */
+  void addFeatures(Features features);
 
   /**
    * Updates the cell at the given row and column.

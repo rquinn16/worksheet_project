@@ -17,9 +17,10 @@ public class Reference implements Formula {
 
   /**
    * Constructor for the Reference class.
-   * @param topLeft The top left Cell coordinate.
+   *
+   * @param topLeft     The top left Cell coordinate.
    * @param bottomRight The bottom right Cell coordinate.
-   * @param referenced The Cells referenced by this reference.
+   * @param referenced  The Cells referenced by this reference.
    */
   public Reference(Coord topLeft, Coord bottomRight, ArrayList<Cell> referenced) {
     this.topLeft = topLeft;
@@ -29,6 +30,7 @@ public class Reference implements Formula {
 
   /**
    * Determines if this reference is valid.
+   *
    * @return boolean stating if the reference is valid.
    */
   @Override
@@ -95,7 +97,7 @@ public class Reference implements Formula {
 
   @Override
   public String toEvaluatedString() {
-   if (this.referenced.size() == 1) {
+    if (this.referenced.size() == 1) {
       return this.referenced.get(0).toEvaluatedString();
     } else if (this.referenced.size() > 1) {
       return "#REF!";
@@ -111,6 +113,7 @@ public class Reference implements Formula {
 
   /**
    * Gets copies of the references this reference refers to.
+   *
    * @return A list of the references in simplified form.
    */
   public ArrayList<Content> getSimplifiedReferences() {

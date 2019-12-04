@@ -1,0 +1,3 @@
+Our controller design is quite simple. The controller only starts the view, which calls out view's render method, and also serves as the action and mouse listener for the editable view. This ensures that when edits happen in the view, only the controller interacts with the model and prevents the view from being able to modify the model. 
+
+In addition to this, we also designed a new view interface called EditableWorksheetView which defines many methods the user may need to interact with a view that can be modified by a controller. We decided to make an interface for this view because an editable has quite many more features than a non-editable one, so we decided it best to distinguish between a non editable and editable view.
