@@ -1,10 +1,9 @@
 package edu.cs3500.spreadsheets.provider.view.view;
 
+import edu.cs3500.spreadsheets.model.Coord;
 import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-
-import edu.cs3500.spreadsheets.model.Coord;
 
 /**
  * Control that is called when data from the model wants to be change in the table.

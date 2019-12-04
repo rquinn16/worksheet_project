@@ -94,7 +94,7 @@ public class WorksheetAdapter implements Worksheet {
 
   @Override
   public void addCell(int col, int row, String contents) {
-    basicWorksheet.addCell(col, row, contents);
+    basicWorksheet.addCell(col + 1, row + 1, contents);
   }
 
   @Override

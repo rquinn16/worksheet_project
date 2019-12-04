@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.provider.view.model.cell;
 
+import edu.cs3500.spreadsheets.model.Coord;
 import java.util.ArrayList;
 
 import edu.cs3500.spreadsheets.model.cell.Cell;
@@ -33,5 +34,10 @@ public class CellAdapter implements ICell {
   @Override
   public String getContent() {
     return c.toString();
+  }
+
+  @Override
+  public Coord getCoord() {
+    return c.getPos();
   }
 }

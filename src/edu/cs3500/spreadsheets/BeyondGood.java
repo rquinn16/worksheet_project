@@ -11,6 +11,7 @@ import edu.cs3500.spreadsheets.provider.view.model.worksheet.WorksheetAdapter;
 import edu.cs3500.spreadsheets.provider.view.view.NewViewEvaluated;
 import edu.cs3500.spreadsheets.provider.view.view.TableController;
 import edu.cs3500.spreadsheets.provider.view.view.ViewEvaluatedExpanded;
+import edu.cs3500.spreadsheets.provider.view.view.ViewEvaluatedExpanded;
 import edu.cs3500.spreadsheets.view.WorksheetGraphicalView;
 import edu.cs3500.spreadsheets.view.WorksheetTextualView;
 import java.io.File;
