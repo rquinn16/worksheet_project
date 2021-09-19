@@ -45,7 +45,7 @@ public class NewViewEvaluated extends JFrame implements IView {
       data.add(new ArrayList<>());
       for (int r = 1; r <= worksheet.getLargestRow(); r++) {
         data.get(c - 1).add(worksheet.getCellAt(c, r).evaluateCell(new ArrayList<>(), worksheet));
-        worksheet.evaluate(Coord.colIndexToName(c)+r);
+        worksheet.evaluate(Coord.colIndexToName(c) + r);
       }
       tableModel.addColumn(Coord.colIndexToName(c)
               , data.get(c - 1).toArray());
